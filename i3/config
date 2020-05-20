@@ -228,4 +228,4 @@ bindsym $mod+shift+s exec i3lock -i $wallpaper -B 10 --compositor && echo mem > 
 bindsym $mod+b exec brave
 bindsym $mod+x exec kodi
 bindsym $mod+t exec subl
-bindsym $mod+shift+v exec pavucotntrol 
+bindsym $mod+shift+v exec pavucontrol 
