@@ -229,3 +229,6 @@ bindsym $mod+b exec brave
 bindsym $mod+x exec kodi
 bindsym $mod+t exec subl
 bindsym $mod+shift+v exec pavucontrol 
+
+#Setting title bar size to zero
+new_window 1pixel
