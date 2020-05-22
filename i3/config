@@ -227,7 +227,7 @@ set $wallpaper "/home/cosmic/Downloads/wallpaper.jpg"
 bindsym $mod+shift+s exec i3lock -i $wallpaper -B 10 --compositor && echo mem > /sys/power/state
 
 # Custom Keybinds
-bindsym $mod+b exec brave
+bindsym $mod+b workspace $ws2 exec brave 
 bindsym $mod+x exec kodi
 bindsym $mod+t exec subl
 bindsym $mod+shift+v exec pavucontrol 
