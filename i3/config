@@ -216,6 +216,8 @@ assign[class="Brave-browser"] $ws2
 assign[class="Sublime_text"] $ws3
 assign[class="Kodi"] $ws5
 assign[class="Alacritty"] $ws1
+assign[class="Code"] $ws3
+assign[class="okular"] $ws4
 
 # Starting the Window Compositor
 exec_always picom
@@ -229,6 +231,8 @@ bindsym $mod+b exec brave
 bindsym $mod+x exec kodi
 bindsym $mod+t exec subl
 bindsym $mod+shift+v exec pavucontrol 
+bindsym $mod+F1 exec ~/configs/custom_workspaces/coding.sh
 
 #Setting title bar size to zero
 new_window 1pixel
+
