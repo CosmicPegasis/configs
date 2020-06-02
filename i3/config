@@ -230,7 +230,7 @@ bindsym $mod+shift+s exec i3lock -i $wallpaper -B 10 --compositor && echo mem > 
 # Custom Keybinds
 bindsym $mod+b workspace $ws2 exec brave 
 bindsym $mod+x workspace $ws5 exec kodi & pavucontrol
-bindsym $mod+t exec subl
+bindsym $mod+t exec code
 bindsym $mod+shift+v workspace $ws4 exec pavucontrol 
 bindsym $mod+F1 workspace $ws4 exec ~/configs/custom_workspaces/coding.sh
 
