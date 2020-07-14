@@ -251,10 +251,10 @@ live_config_reload: true
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
 shell:
-  program: fish
-#  args:
-#    - --login
-
+  program: /bin/fish
+  args: 
+  - -c
+  - neofetch && exec fish
 # Startup directory
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
