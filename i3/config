@@ -29,7 +29,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -99,10 +98,10 @@ bindsym $mod+a focus parent
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: "
-set $ws2 "2:龜"
-set $ws3 "3:ST"
-set $ws4 "4:"
-set $ws5 "5"
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 "4:ST"
+set $ws5 "5:VM"
 set $ws6 "6:"
 set $ws7 "7"
 set $ws8 "8"
@@ -207,8 +206,7 @@ bar {
 assign[class="code-oss"] $ws3
 assign[class="Kodi"] $ws5
 assign[class="Alacritty"] $ws1
-assign[class="Code"] $ws3
-assign[class="okular"] $ws4
+assign[class="okular"] $ws3
 assign[class="Pavucontrol"] $ws7
 assign[class="firefox"] $ws2
 assign[class="Nemo"] $ws6
@@ -226,6 +224,8 @@ bindsym $mod+x workspace $ws5 exec kodi & pavucontrol
 bindsym $mod+t exec code
 bindsym $mod+shift+v workspace $ws4 exec pavucontrol 
 bindsym $mod+F1 workspace $ws4 exec ~/configs/custom_workspaces/coding.sh
+bindsym $mod+Shift+p exec redshift -P
+bindsym $mod+Shift+o exec killall redshift 
 
 # Setting title bar size to zero
 new_window 1pixel
@@ -241,3 +241,5 @@ exec okular
 exec nemo 
 exec pavucontrol 
 exec brave 
+exec mount /home/cosmic/server_root
+exec redshift -P
