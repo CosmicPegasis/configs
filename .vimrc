@@ -1,0 +1,1 @@
+/home/cosmic/.vim/vimrc
