@@ -209,14 +209,12 @@ assign[class="Alacritty"] $ws1
 assign[class="okular"] $ws3
 assign[class="Pavucontrol"] $ws7
 assign[class="firefox"] $ws2
-assign[class="Nemo"] $ws6
-assign[class="Brave-browser"] $ws10
+assign[class="konsole"] $ws6
 # Starting the Window Compositor
 exec_always picom --experimental-backends
 
 # Shortcut for Suspending and Locking
 set $wallpaper "/home/cosmic/Downloads/wallpaper.jpg"
-bindsym $mod+shift+s exec i3lock -i $wallpaper -B 10 --compositor && echo mem > /sys/power/state
 
 # Custom Keybinds bindsym
 bindsym $mod+b workspace $ws2 exec firefox
@@ -226,6 +224,8 @@ bindsym $mod+shift+v workspace $ws4 exec pavucontrol
 bindsym $mod+F1 workspace $ws4 exec ~/configs/custom_workspaces/coding.sh
 bindsym $mod+Shift+p exec redshift -P
 bindsym $mod+Shift+o exec killall redshift 
+bindsym $mod+Shift+s exec light-locker-command -l
+bindsym $mod+shift+f exec konsole --hide-menubar -e lf &
 
 # Setting title bar size to zero
 new_window 1pixel
@@ -236,10 +236,10 @@ gaps outer 20
 
 # Autostart
 exec alacritty 
-exec firefox 
 exec okular 
-exec nemo 
+exec /home/cosmic/scripts/file-manager.sh
 exec pavucontrol 
-exec brave 
+exec firefox 
 exec mount /home/cosmic/server_root
 exec redshift -P
+exec light-locker
