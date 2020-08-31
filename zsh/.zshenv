@@ -8,9 +8,9 @@ alias ll='ls -ahl'
 alias vim='nvim'
 alias vfzf='fzf | xargs nvim'
 alias p='sudo pacman'
+alias ssh_jeb='ssh cosmic@192.168.1.69'
+alias cp='cp -i'
 
 export FZF_DEFAULT_COMMAND="find -L"
 set RANGER_LOAD_DEFAULT_RC FALSE
 
-mount /server_root 2> /dev/null
-xset r rate 175 20

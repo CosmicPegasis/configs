@@ -119,8 +119,8 @@ draw_bold_text_with_bright_colors: false
 colors:
   # Default colors
   primary:
-    background: '#191919'
-    foreground: '#d8dee9'
+    background: '#050014'
+    foreground: '#736e7d'
 
     # Bright and dim foreground colors
     #
@@ -136,7 +136,7 @@ colors:
   # the cursor color will be the inverse of the cell color.
   cursor:
     text: '#191919'
-    cursor: '#d8dee9'
+    cursor: '#736e7d'
 
   # Selection colors
 
@@ -149,36 +149,36 @@ colors:
 
   # Normal colors
   normal:
-    black:   '#313539'
-    red:     '#b02626'
-    green:   '#40a62f'
-    yellow:  '#f2e635'
-    blue:    '#314ad0'
-    magenta: '#b30ad0'
-    cyan:    '#32d0fc'
-    white:   '#acadb1'
+    black:   '#230046'
+    red:     '#7d1625'
+    green:   '#337e6f'
+    yellow:  '#7f6f49'
+    blue:    '#4f4a7f'
+    magenta: '#5a3f7f'
+    cyan:    '#58777f'
+    white:   '#736e7d'
 
   # Bright colors
   bright:
-    black:   '#313539'
-    red:     '#b02626'
-    green:   '#40a62f'
-    yellow:  '#f2e635'
-    blue:    '#314ad0'
-    magenta: '#b30ad0'
-    cyan:    '#32d0fc'
-    white:   '#acadb1'
+    black:   '#372d46'
+    red:     '#e05167'
+    green:   '#52e0c4'
+    yellow:  '#e0c386'
+    blue:    '#8e87e0'
+    magenta: '#a776e0'
+    cyan:    '#9ad4e0'
+    white:   '#8c91fa'
 
   # Dim colors
-  dim:
-    black:   '#676f78'
-    red:     '#b55454'
-    green:   '#78a670'
-    yellow:  '#faf380'
-    blue:    '#707fd0'
-    magenta: '#c583d0'
-    cyan:    '#8adaf1'
-    white:   '#e0e3e7'
+  #   dim:
+  #   black:   '#676f78'
+  #   red:     '#b55454'
+  #   green:   '#78a670'
+  #   yellow:  '#faf380'
+  #   blue:    '#707fd0'
+  #   magenta: '#c583d0'
+  #   cyan:    '#8adaf1'
+  #   white:   '#e0e3e7'
 
   # Indexed Colors
   #
