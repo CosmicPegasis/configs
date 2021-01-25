@@ -28,7 +28,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+exec nm-applet --no-agent
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -87,13 +87,19 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+#bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
+# player controls
+bindsym $mod+F6 exec playerctl play-pause
+bindsym $mod+F5 exec playerctl previous
+bindsym $mod+F7 exec playerctl next
+bindsym $mod+F8 exec playerctl stop
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -107,6 +113,24 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+
+# Use workspaces on different monitors
+workspace $ws1 output HDMI-0
+workspace $ws2 output DVI-D-0
+workspace $ws3 output DVI-D-0
+workspace $ws4 output HDMI-0
+workspace $ws5 output DVI-D-0
+workspace $ws6 output HDMI-0
+workspace $ws7 output DVI-D-0
+workspace $ws8 output HDMI-0
+workspace $ws9 output DVI-D-0
+workspace $ws10 output DVI-D-0
+workspace $ws11 output DVI-D-0
+workspace $ws12 output HDMI-0
+workspace $ws13 output DVI-D-0
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -119,6 +143,9 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace $ws10
+bindsym $mod+Mod1+1 workspace $ws11
+bindsym $mod+Mod1+2 workspace $ws12
+bindsym $mod+Mod1+3 workspace $ws13
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -131,6 +158,12 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Mod1+Shift+1 move container to workspace $ws11
+bindsym $mod+Mod1+Shift+2 move container to workspace $ws12
+
+# Dual Monitor Setup
+bindsym $mod+Shift+bracketleft move workspace to output primary
+bindsym $mod+Shift+bracketright move workspace to output DVI-D-0
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -167,7 +200,9 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Set custom wallpaper
-exec_always feh --bg-scale /home/cosmic/Downloads/wallpaper.jpg 
+#exec_always feh --bg-scale /home/cosmic/Downloads/wallpaper.jpg 
+exec_always nitrogen --restore
+exec_always xrandr --output HDMI-0 --primary --left-of DVI-D-0
 
 # Hiding edge borders
 hide_edge_borders both
@@ -194,49 +229,58 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 #}
 
 # Assigning WorkSpaces
-assign[class="code-oss"] $ws3
-assign[class="Kodi"] $ws5
-assign[class="Alacritty"] $ws1
+assign[class="Alacritty" instance="Alacritty"] $ws1
+assign[class="Alacritty" instance="nvim"] $ws4
+assign[class="Alacritty" instance="nnn"] $ws5
 assign[class="okular"] $ws3
 assign[class="Pavucontrol"] $ws7
-assign[class="firefox"] $ws2
-assign[class="konsole"] $ws6
+assign[class="workspace2"] $ws2
+assign[class="workspace12"] $ws12
+assign[class="Chromium" instance="open.spotify.com"] $ws10
+assign[title="ranger"] $ws6
+assign[class="discord"] $ws9
+assign[class="dolphin"] $ws5
+assign[class="Geary"] $ws13
 # Starting the Window Compositor
-exec_always picom --experimental-backends
+exec_always picom 
 
 # Shortcut for Suspending and Locking
 set $wallpaper "/home/cosmic/Downloads/wallpaper.jpg"
 
 # Custom Keybinds bindsym
-bindsym $mod+b workspace $ws2 exec firefox
-bindsym $mod+x workspace $ws5 exec kodi & pavucontrol
-bindsym $mod+t exec code
-bindsym $mod+shift+v workspace $ws4 exec pavucontrol 
-bindsym $mod+F1 workspace $ws4 exec ~/configs/custom_workspaces/coding.sh
-bindsym $mod+Shift+p exec redshift -P
-bindsym $mod+Shift+o exec killall redshift 
-bindsym $mod+shift+f exec konsole --hide-menubar -e lf &
+bindsym $mod+b workspace $ws2 exec com.github.Eloston.UngoogledChromium 
+bindsym $mod+Shift+b workspace $ws12 exec com.github.Eloston.UngoogledChromium
+bindsym $mod+t exec alacritty --class nvim -e nvim 
+bindsym $mod+n exec alacritty --class nnn -e nnn &
+bindsym $mod+y exec chromium --app=https://open.spotify.com/
+bindsym $mod+Shift+p exec redshift-gtk -P
+bindsym $mod+Shift+o exec killall redshift-gtk
 
 # Setting title bar size to zero
 new_window 1pixel
 
-# Trying to add gaps to windows
-gaps inner 10
-gaps outer 20
+# Add gaps to windows
+#gaps inner 5
+#gaps outer 5
 
 
 # Autostart
 exec alacritty
 exec okular 
 exec pavucontrol 
-exec firefox 
-exec redshift -P
+exec redshift-gtk -P
 exec light-locker
-exec konsole -e ranger
+exec discord
+exec geary
 
 # Scheduled Commands
-exec xset r rate 175 20
-exec mount /home/cosmic/server_root
 
 # Polybar launch script
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Rebind Menu key to work as right mod
+exec xmodmap -e "keycode 135 = Super_L"
+
+# Disable Screen Saver
+exec_always xset s off 
+exec_always xset -dpms

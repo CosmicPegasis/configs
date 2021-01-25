@@ -1,268 +1,214 @@
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-"                                                                              "
-"                       __   _ _ _ __ ___  _ __ ___                            "
-"                       \ \ / / | '_ ` _ \| '__/ __|                           "
-"                        \ V /| | | | | | | | | (__                            "
-"                         \_/ |_|_| |_| |_|_|  \___|                           "
-"                                                                              "
-"                                                                              "
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+let mapleader=" "
 
-let $vimhome=fnamemodify(resolve(expand("~/.vimrc")), ':p:h')
-let $vundle=$vimhome."/bundle/Vundle.vim"
-let mapleader=","
+call plug#begin('~/.vim/plugged')
+"========================================================================================================================================================================================
+" General
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plug 'scrooloose/nerdtree'                                                                  "File Explorer 
+Plug 'jiangmiao/auto-pairs'                                                                 "Auto Pairing Brackets
+Plug 'wfxr/minimap.vim'                                                                     "Minimap
+Plug 'tpope/vim-fugitive'                                                                   "Git Integration
+Plug 'airblade/vim-gitgutter'                                                               "Git Diff Integration
+Plug 'vim-airline/vim-airline'                                                              "Status Bar
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                                         "Fuzzy Search
+Plug 'junegunn/fzf.vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }                                        "Material Theme
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                                             "Autcomplete
+Plug 'vim-ctrlspace/vim-ctrlspace'                                                          "Workspace Management
 
-" Be iMproved
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+" Python
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }                    "Python Integration and IDE Features
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}                                      "Semantic Highlighting for Python
+
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+" HTML and CSS
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plug 'mattn/emmet-vim'                                                                      "Easier HTML and CSS
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }                                      "Prettier for HTML and CSS
+Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}                             "Live Preview 
+
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+" C++
+"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plug 'dense-analysis/ale'                                                                   "Linting for C++
+Plug 'jackguo380/vim-lsp-cxx-highlight'                                                     "Semantic Highliting for C++
+"========================================================================================================================================================================================
+call plug#end()
+
+let g:material_theme_style = 'ocean-community'
+
+" air-line
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+" Python-mode
+let g:pymode = 1
+let g:pymode_python = 'python3'
+let g:pymode_run_bind = '<F5>'
+let g:pymode_indent = 1
+
+" Coc config
+let g:coc_global_extensions = ['coc-python']
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
+
+" Emmet Configuration
+let g:user_emmet_mode='a'
+let g:user_emmet_install_global = 0
+autocmd FileType html EmmetInstall
+let g:user_emmet_leader_key=','
+
+" Prettier for vim configuration
+let g:prettier#exec_cmd_async = 1
+let g:prettier#autoformat = 0
+let g:prettier#autoformat_require_pragma = 0
+
+augroup VimPrettier
+    autocmd!
+    autocmd BufWritePre *.js,*.ts,*.html,*.css Prettier
+augroup END
+
+" Ale Config
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 1
+let g:ale_fix_on_save = 1
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
+
+let g:ale_fixers = {
+            \ 'cpp': ['astyle']
+            \}
+
+" C++ Semantic Highlisting Config
+let g:lsp_cxx_hl_use_text_props = 1
+
+" CtrlSpace
+let g:CtrlSpaceDefaultMappingKey = "<C-space> "
+
+" Custom Keybinds
+nnoremap " :NERDTreeToggle<CR>
+nnoremap gs :source %<CR>
+nnoremap <leader>f :Files ~<CR>
+nnoremap <leader>t :tabnew<CR>
+nnoremap gnv :vsplit 
+nnoremap gnt :tabedit
+nnoremap <leader>cd :cd %:p:h<CR>
+nnoremap <leader>tt :tabedit<CR>:terminal<CR>
+nnoremap <leader>tn :tabedit<CR>:terminal<CR>annn<CR>
+
+" Terminal keybindings
+tnoremap <leader>jj <C-\><C-n>
+" Closing Windows
+nnoremap gcj <c-w>j:q<CR>
+nnoremap gck <c-w>k:q<CR>
+nnoremap gcl <c-w>l:q<CR>
+nnoremap gch <c-w>h:q<CR>
+nnoremap gj <c-w>j<CR>
+nnoremap gk <c-w>k
+nnoremap gl <c-w>l
+nnoremap gh <c-w>h
+
+nnoremap <leader>l :PymodeLint<CR>
+nnoremap <leader>L :PymodeLintAuto<CR>
+
+" Git keybindings
+nnoremap <leader>Gs :tab Git status<CR>
+nnoremap <leader>Gc :Git commit
+nnoremap <leader>Ga :Git add
+nnoremap <leader>Gd :tab Git diff<CR>
+nnoremap <leader>Gg :tab Git<CR>
+nnoremap <leader>Gp :Git push origin master<CR>
+
+" Vim settings
+colorscheme material
+
+set relativenumber                          " show line numbers
+set termguicolors
+set number
 set nocompatible
-
-"=====================================================
-"" Vundle settings
-"=====================================================
-filetype off
-set rtp+=$vundle
-call vundle#begin()
-
-    Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
-
-    "-------------------=== Code/Project navigation ===-------------
-    Plugin 'scrooloose/nerdtree'                " Project and file navigation
-
-    "-------------------=== Other ===-------------------------------
-    Plugin 'bling/vim-airline'                  " Lean & mean status/tabline for vim
-    Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
-    Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
-    Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
-    Plugin 'rosenfeld/conque-term'              " Consoles a buffers
-    Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
-    Plugin 'flazz/vim-colorschemes'             " Colorschemes
-    Plugin 'jiangmiao/auto-pairs'               " Auto Pairing of Brackets
-    Plugin 'tpope/vim-fugitive'                 " Git Integration
-    Plugin 'junegunn/fzf' 
-    Plugin 'junegunn/fzf.vim'                   " Fuzzy Finder
-    Plugin 'severin-lemaignan/vim-minimap'      " Minimap
-    Plugin 'easymotion/vim-easymotion'          " Easy Motion
-    Plugin 'arzg/vim-colors-xcode'              " Color Theme
-
-    "-------------------=== Snippets support ===--------------------
-    Plugin 'garbas/vim-snipmate'                " Snippets manager
-    Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
-    Plugin 'tomtom/tlib_vim'                    " dependencies #2
-    Plugin 'honza/vim-snippets'                 " snippets repo
-
-    "-------------------=== Languages support ===-------------------
-    Plugin 'tpope/vim-commentary'               " Comment stuff out
-    Plugin 'mitsuhiko/vim-sparkup'              " Sparkup(XML/jinja/htlm-django/etc.) support
-    Plugin 'Rykka/riv.vim'                      " ReStructuredText plugin
-    Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
-
-    "-------------------=== Python  ===-----------------------------
-    Plugin 'klen/python-mode'                   " Python mode (docs, refactor, lints...)
-    Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
-    Plugin 'vim-python/python-syntax'           " Syntax Highlighting
-
-call vundle#end()                           " required
-filetype on
-filetype plugin on
-filetype plugin indent on
-
-"=====================================================
-"" General settings
-"=====================================================
-syntax enable                               " syntax highlight
-
-set termguicolors                          " set true colors
-colorscheme xcodedarkhc                    " set color scheme
-
-set relativenumber                                  " show line numbers
+set hidden
+set encoding=utf-8
 set ruler
 set ttyfast                                 " terminal acceleration
-
 set tabstop=4                               " 4 whitespaces for tabs visual presentation
 set shiftwidth=4                            " shift lines by 4 spaces
 set smarttab                                " set tabs for a shifttabs logic
 set expandtab                               " expand tabs into spaces
 set autoindent                              " indent when moving to the next line while writing code
-
 set cursorline                              " shows line under the cursor's line
 set showmatch                               " shows matching part of bracket pairs (), [], {}
-
 set enc=utf-8	                            " utf-8 by default
-
 set nobackup 	                            " no backup files
 set nowritebackup                           " only in case you don't want a backup file while editing
 set noswapfile 	                            " no swap files
-
 set backspace=indent,eol,start              " backspace removes all (indents, EOLs, start) What is start?
-
 set scrolloff=10                            " let 10 lines before/after cursor during scroll
+set clipboard+=unnamed                       " use system clipboard
+set exrc                                    " enable usage of additional .vimrc files from working directory set secure                                  " prohibit .vimrc files to execute shell, create files, etc...
+syntax on
+set mouse=a
 
-set clipboard=unnamed                       " use system clipboard
-
-set exrc                                    " enable usage of additional .vimrc files from working directory
-set secure                                  " prohibit .vimrc files to execute shell, create files, etc...
-
-" Additional mappings for Esc (useful for MacBook with touch bar)
 inoremap jj <Esc>
 inoremap jk <Esc>
+vnoremap  <leader>y  "+y
 
-"=====================================================
-"" Tabs / Buffers settings
-"=====================================================
-tab sball
-set switchbuf=useopen
-set laststatus=2
-nmap <F9> :bprev<CR>
-nmap <F10> :bnext<CR>
-nmap <silent> <leader>q :SyntasticCheck # <CR> :bp <BAR> bd #<CR>
-
-"" Search settings
-"=====================================================
 set incsearch	                            " incremental search
 set hlsearch	                            " highlight search results
 
-"=====================================================
-"" AirLine settings
-"=====================================================
-let g:airline_theme='violet'
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#formatter='unique_tail'
-let g:airline_powerline_fonts=1
-
-"=====================================================
-"" NERDTree settings
-"=====================================================
-let NERDTreeIgnore=['\.pyc$', '\.pyo$', '__pycache__$']     " Ignore files in NERDTree
-let NERDTreeWinSize=40
-autocmd VimEnter * if !argc() | NERDTree | endif  " Load NERDTree only if vim is run without arguments
-nmap " :NERDTreeToggle<CR>
-
-"=====================================================
-"" SnipMate settings
-"=====================================================
-let g:snippets_dir='~/.vim/vim-snippets/snippets'
-
-"=====================================================
-"" Riv.vim settings
-"=====================================================
-let g:riv_disable_folding=0
-
-"=====================================================
-"" Python settings
-"=====================================================
-
-" python executables for different plugins
-let g:pymode_python='python3'
-let g:syntastic_python_python_exec='python3'
-
-" rope
-let g:pymode_rope=0
-let g:pymode_rope_completion=1
-let g:pymode_rope_complete_on_dot=1
-let g:pymode_rope_auto_project=1
-let g:pymode_rope_enable_autoimport=0
-let g:pymode_rope_autoimport_generate=0
-let g:pymode_rope_guess_project=0
-
-" documentation
-let g:pymode_doc=0
-let g:pymode_doc_bind='K'
-
-" lints
-let g:pymode_lint=1
-
-" virtualenv
-let g:pymode_virtualenv=1
-
-" breakpoints
-let g:pymode_breakpoint=1
-let g:pymode_breakpoint_key='<leader>b'
-
-" syntax highlight
-let g:pymode_syntax=1
-let g:pymode_syntax_slow_sync=1
-let g:pymode_syntax_all=1
-let g:pymode_syntax_print_as_function=g:pymode_syntax_all
-let g:pymode_syntax_highlight_async_await=g:pymode_syntax_all
-let g:pymode_syntax_highlight_equal_operator=g:pymode_syntax_all
-let g:pymode_syntax_highlight_stars_operator=g:pymode_syntax_all
-let g:pymode_syntax_highlight_self=g:pymode_syntax_all
-let g:pymode_syntax_indent_errors=g:pymode_syntax_all
-let g:pymode_syntax_string_formatting=g:pymode_syntax_all
-let g:pymode_syntax_space_errors=g:pymode_syntax_all
-let g:pymode_syntax_string_format=g:pymode_syntax_all
-let g:pymode_syntax_string_templates=g:pymode_syntax_all
-let g:pymode_syntax_doctests=g:pymode_syntax_all
-let g:pymode_syntax_builtin_objs=g:pymode_syntax_all
-let g:pymode_syntax_builtin_types=g:pymode_syntax_all
-let g:pymode_syntax_highlight_exceptions=g:pymode_syntax_all
-let g:pymode_syntax_docstrings=g:pymode_syntax_all
-
-" highlight 'long' lines (>= 80 symbols) in python files
-augroup vimrc_autocmds
-    autocmd!
-    autocmd FileType python,rst,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,rst,c,cpp match Excess /\%81v.*/
-    autocmd FileType python,rst,c,cpp set nowrap
-    autocmd FileType python,rst,c,cpp set colorcolumn=80
-augroup END
-
-" code folding
-let g:pymode_folding=1
-
-" pep8 indents
-let g:pymode_indent=1
-
-" code running
-let g:pymode_run=1
-let g:pymode_run_bind='<F5>'
-
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_enable_signs=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_aggregate_errors=1
-let g:syntastic_loc_list_height=5
-let g:syntastic_error_symbol='X'
-let g:syntastic_style_error_symbol='X'
-let g:syntastic_warning_symbol='x'
-let g:syntastic_style_warning_symbol='x'
-let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
-
-" YouCompleteMe
-set completeopt-=preview
-
-let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf=0
-
-" MiniMap
-let g:minimap_show='<leader>ms'
-let g:minimap_update='<leader>mu'
-let g:minimap_close='<leader>gc'
-let g:minimap_toggle='<leader>gt'
-
-" Syntax Highlighting
-let g:python_highlight_all = 1
-" Key Bindings
-nnoremap gcl <c-w>l:q<CR>
-nnoremap gch <c-w>h:q<CR>
-nnoremap gcj <c-w>j:q<cr>
-nnoremap gck <c-w>k:q<cr>
-
-nnoremap gl <c-w>l
-nnoremap gh <c-w>h
-nnoremap gj <c-w>j
-nnoremap gk <c-w>k
-
-nnoremap gnv <c-w>v
-nnoremap gnh <c-w>h
-nnoremap gnt <c-w>T
-
-nnoremap qu :q<CR>
-
-nnoremap <leader>L :PymodeLintAuto<CR>
-nnoremap <leader>l :PymodeLint<CR>
-nnoremap <leader>f :cd ~/<CR>:Files<CR>
-nnoremap <leader>./ :cd %:h<CR>
-nmap <leader>g :YcmCompleter GoTo<CR>
-nmap <leader>d :YcmCompleter GoToDefinition<CR>
+:cd %:p:h

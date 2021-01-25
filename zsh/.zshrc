@@ -4,6 +4,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/home/cosmic/.oh-my-zsh"
 export FZF_BASE=/usr/bin/fzf
+# Install z.lua
+eval "$(lua /usr/bin/z.lua --init zsh)"
 
 # Uncomment the following line to disable fuzzy completion
 # export DISABLE_FZF_AUTO_COMPLETION="true"
@@ -77,7 +79,7 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf) 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -110,5 +112,33 @@ source $ZSH/oh-my-zsh.sh
 
 # vi mode
 bindkey -v
+function _set_cursor() {
+    if [[ $TMUX = '' ]]; then
+      echo -ne $1
+    else
+      echo -ne "\ePtmux;\e\e$1\e\\"
+    fi
+}
+
+# Remove mode switching delay.
+KEYTIMEOUT=5
+
+function _set_block_cursor() { _set_cursor '\e[2 q' }
+function _set_beam_cursor() { _set_cursor '\e[0 q' }
+
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+      _set_block_cursor
+  else
+      _set_beam_cursor
+  fi
+}
+zle -N zle-keymap-select
+# ensure beam cursor when starting new terminal
+precmd_functions+=(_set_beam_cursor) #
+# ensure insert mode and beam cursor when exiting vim
+zle-line-init() { zle -K viins; _set_beam_cursor }
+zle-line-finish() { _set_block_cursor }
+zle -N zle-line-finish
 
 source /home/cosmic/custom_zsh_plugins/completetion.zsh
